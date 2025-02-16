@@ -33,18 +33,18 @@ namespace Demofirst
                 string email = Email.Text;
                 string message = Message.Text;
 
-				var res = _dao.AddProduct(name, email, message);
+				//var res = _dao.AddProduct(name, email, message);
 
-				if(res != null)
-				{
-					conResult.Text = res["message"].ToString();
+				//if(res != null)
+				//{
+				//	conResult.Text = res["message"].ToString();
 
-                }
-				else
-				{
-					conResult.Text = "cannot connect to db";
+    //            }
+				//else
+				//{
+				//	conResult.Text = "cannot connect to db";
 
-                }
+    //            }
 
 				//get connection from the web config file
 

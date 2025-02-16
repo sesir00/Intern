@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing.Drawing2D;
+using System.Net;
+using System.Security.Policy;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Xml.Linq;
 using Demofirst.Dao; // Include the namespace where ProDao is defined
 
 namespace Demofirst.Dao
@@ -21,14 +25,29 @@ namespace Demofirst.Dao
 
         private void LoadUsers()
         {
-            string query = "SELECT * FROM Users";
-            DataTable dt = _dao.ExecuteDataTable(query);
-            gvUsers.DataSource = dt;
-            gvUsers.DataBind();
+            try
+            {
+                DataTable dt = _dao.FetchUser(); // ✅ Fetch entire DataTable
 
-            //// Trigger a client-side page reload
-            //ScriptManager.RegisterStartupScript(this, GetType(), "reloadPage", "location.reload();", true);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    gvUsers.DataSource = dt;
+                    gvUsers.DataBind();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "toastrSuccess", "toastr.success('Users loaded successfully!');", true);
+                }
+                else
+                {
+                    gvUsers.DataSource = null;
+                    gvUsers.DataBind();
+                    ScriptManager.RegisterStartupScript(this, GetType(), "toastrInfo", "toastr.info('No users found.');", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "toastrError", $"toastr.error('Error: {ex.Message}');", true);
+            }
         }
+
         private void ClearField()
         {
             txtName.Text = "";
@@ -41,16 +60,23 @@ namespace Demofirst.Dao
 
         protected void btnAddUser_Click(object sender, EventArgs e)
         {
-            var dr = _dao.AddUser();
-            if (dr["code"].ToString().Equals(0))
+            var name = txtName.Text;
+            var email = txtEmail.Text;
+            var phone = txtPhone.Text;
+            var address = txtAddress.Text;
+            var type = txtType.Text;
+            var isActive = ddlIsActive.Text;
+            var dr = _dao.AddUser(name, email, phone, address, type, isActive);
+            if (dr["code"].ToString().Equals("0")) // Success
             {
-                //success
+                ScriptManager.RegisterStartupScript(this, GetType(), "toastrSuccess", "toastr.success('User added successfully!');", true);
             }
-            else
+            else // Failure
             {
-                //failed
+                ScriptManager.RegisterStartupScript(this, GetType(), "toastrError", "toastr.error('Failed to add user. Please try again.');", true);
             }
-                ClearField();
+            ClearField();
+            LoadUsers();
         }
 
         protected void gvUsers_RowEditing(object sender, GridViewEditEventArgs e)
@@ -96,13 +122,24 @@ namespace Demofirst.Dao
 
         protected void gvUsers_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
+            //    int id = Convert.ToInt32(gvUsers.DataKeys[e.RowIndex].Value);
+            //    //string query = "DELETE FROM Users WHERE Id=@Id";
+            //    SqlParameter[] parameters =
+            //    {
+            //        new SqlParameter("@Id", id)
+            //    };
+            //    _dao.ExecuteProcedure("DeleteUser", parameters);
+
             int id = Convert.ToInt32(gvUsers.DataKeys[e.RowIndex].Value);
-            //string query = "DELETE FROM Users WHERE Id=@Id";
-            SqlParameter[] parameters =
+            var dr = _dao.DeleteUser(id);
+            if (dr["code"].ToString().Equals("0")) // Success
             {
-                new SqlParameter("@Id", id)
-            };
-            _dao.ExecuteProcedure("DeleteUser", parameters);
+                ScriptManager.RegisterStartupScript(this, GetType(), "toastrSuccess", "toastr.success('User deleted successfully!');", true);
+            }
+            else // Failure
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "toastrError", "toastr.error('Failed to delete user. Please try again.');", true);
+            }
             LoadUsers();
         }
     }
