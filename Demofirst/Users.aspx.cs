@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing.Drawing2D;
@@ -50,69 +51,139 @@ namespace Demofirst.Dao
 
         private void ClearField()
         {
+            hfUserId.Value = "";
             txtName.Text = "";
             txtEmail.Text = "";
             txtPhone.Text = "";
             txtAddress.Text = "";
             txtType.Text = "";
-            ddlIsActive.Text = "";
+            ddlIsActive.SelectedIndex = 0;
+            btnSubmit.Text = "Add User"; // Reset button text
+            formTitle.InnerText = "Add User"; // Reset form title
+
         }
 
         protected void btnAddUser_Click(object sender, EventArgs e)
         {
+
+            int id = string.IsNullOrEmpty(hfUserId.Value) ? 0 : Convert.ToInt32(hfUserId.Value);
             var name = txtName.Text;
             var email = txtEmail.Text;
             var phone = txtPhone.Text;
             var address = txtAddress.Text;
             var type = txtType.Text;
             var isActive = ddlIsActive.Text;
-            var dr = _dao.AddUser(name, email, phone, address, type, isActive);
-            if (dr["code"].ToString().Equals("0")) // Success
+           
+            if(id == 0)
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "toastrSuccess", "toastr.success('User added successfully!');", true);
+                var dr = _dao.AddUser(name, email, phone, address, type, isActive);
+                //insert new user
+                if (dr["code"].ToString().Equals("0")) // Success
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "toastrSuccess", "toastr.success('User added successfully!');", true);
+                }
+                else // Failure
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "toastrError", "toastr.error('Failed to add user. Please try again.');", true);
+                }
             }
-            else // Failure
+            else
             {
-                ScriptManager.RegisterStartupScript(this, GetType(), "toastrError", "toastr.error('Failed to add user. Please try again.');", true);
+                var dr = _dao.EditUser(id, name, email, phone, address, type, isActive);
+                //update existig user
+                if (dr["code"].ToString().Equals("0")) // Success
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "toastrSuccess", "toastr.success('User updated successfully!');", true);
+                }
+                else // Failure
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "toastrError", "toastr.error('Failed to update user. Please try again.');", true);
+                }
             }
+
             ClearField();
             LoadUsers();
         }
 
         protected void gvUsers_RowEditing(object sender, GridViewEditEventArgs e)
         {
-            gvUsers.EditIndex = e.NewEditIndex;
-            LoadUsers();
+            //get row index
+            int rowIndex = e.NewEditIndex;
+            GridViewRow row = gvUsers.Rows[rowIndex];
+
+            // Extract data
+            string id = gvUsers.DataKeys[rowIndex].Value.ToString();
+            string name = row.Cells[1].Text;
+            string email = row.Cells[2].Text;
+            string phone = row.Cells[3].Text;
+            string address = row.Cells[4].Text;
+            string type = row.Cells[5].Text;
+            string isActive = row.Cells[6].Text == "Active" ? "1" : "0";
+
+            // Set values in the textboxes below
+            hfUserId.Value = id;
+            txtName.Text = name;
+            txtEmail.Text = email;
+            txtPhone.Text = phone;
+            txtAddress.Text = address;
+            txtType.Text = type;
+            ddlIsActive.SelectedValue = isActive;
+
+            //change the button text to Update User
+            btnSubmit.Text = "Update user";
+            formTitle.InnerText = "Update user";
         }
 
-        protected void gvUsers_RowUpdating(object sender, GridViewUpdateEventArgs e)
-        {
-            int id = Convert.ToInt32(gvUsers.DataKeys[e.RowIndex].Value);
-            GridViewRow row = gvUsers.Rows[e.RowIndex];
+        //protected void gvUsers_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        //{
+        //    //int id = Convert.ToInt32(gvUsers.DataKeys[e.RowIndex].Value);
+        //    //GridViewRow row = gvUsers.Rows[e.RowIndex];
 
-            string name = (row.Cells[1].Controls[0] as TextBox).Text;
-            string email = (row.Cells[2].Controls[0] as TextBox).Text;
-            string phone = (row.Cells[3].Controls[0] as TextBox).Text;
-            string address = (row.Cells[4].Controls[0] as TextBox).Text;
-            string type = (row.Cells[5].Controls[0] as TextBox).Text;
-            string isActive = (row.Cells[6].Controls[0] as TextBox).Text;
+        //    //string name = (row.Cells[1].Controls[0] as TextBox).Text;
+        //    //string email = (row.Cells[2].Controls[0] as TextBox).Text;
+        //    //string phone = (row.Cells[3].Controls[0] as TextBox).Text;
+        //    //string address = (row.Cells[4].Controls[0] as TextBox).Text;
+        //    //string type = (row.Cells[5].Controls[0] as TextBox).Text;
+        //    //string isActive = (row.Cells[6].Controls[0] as TextBox).Text;
 
-            string query = "UPDATE Users SET Name=@Name, Email=@Email, Phone=@Phone, Address=@Address, Type=@Type, is_active=@IsActive WHERE Id=@Id";
-            SqlParameter[] parameters =
-            {
-                new SqlParameter("@Id", id),
-                new SqlParameter("@Name", name),
-                new SqlParameter("@Email", email),
-                new SqlParameter("@Phone", phone),
-                new SqlParameter("@Address", address),
-                new SqlParameter("@Type", type),
-                new SqlParameter("@IsActive", isActive)
-            };
-            _dao.ExecuteProcedure(query, parameters);
 
-            gvUsers.EditIndex = -1;
-            LoadUsers();
-        }
+        //    //var dr = _dao.EditUser(id, name, email, phone, address, type, isActive);
+        //    //if (dr["code"].ToString().Equals("0")) // Success
+        //    //{
+        //    //    ScriptManager.RegisterStartupScript(this, GetType(), "toastrSuccess", "toastr.success('User updated successfully!');", true);
+        //    //}
+        //    //else // Failure
+        //    //{
+        //    //    ScriptManager.RegisterStartupScript(this, GetType(), "toastrError", "toastr.error('Failed to update user. Please try again.');", true);
+        //    //}
+        //    //gvUsers.EditIndex = -1;   // Exit edit mode
+        //    //ClearField();
+        //    //LoadUsers();
+
+
+
+
+
+
+
+
+
+        //    //string query = "UPDATE Users SET Name=@Name, Email=@Email, Phone=@Phone, Address=@Address, Type=@Type, is_active=@IsActive WHERE Id=@Id";
+        //    //SqlParameter[] parameters =
+        //    //{
+        //    //    new SqlParameter("@Id", id),
+        //    //    new SqlParameter("@Name", name),
+        //    //    new SqlParameter("@Email", email),
+        //    //    new SqlParameter("@Phone", phone),
+        //    //    new SqlParameter("@Address", address),
+        //    //    new SqlParameter("@Type", type),
+        //    //    new SqlParameter("@IsActive", isActive)
+        //    //};
+        //    //_dao.ExecuteProcedure(query, parameters);
+
+        //    //gvUsers.EditIndex = -1;
+        //    //LoadUsers();
+        //}
 
         protected void gvUsers_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {

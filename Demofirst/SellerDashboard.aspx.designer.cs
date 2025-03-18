@@ -7,110 +7,81 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Demofirst.Dao
-{
-
-
-    public partial class Users
-    {
-
+namespace Demofirst {
+    
+    
+    public partial class SellerDashboard {
+        
         /// <summary>
-        /// form1 control.
+        /// txtProductID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-
+        protected global::System.Web.UI.WebControls.TextBox txtProductID;
+        
         /// <summary>
-        /// gvUsers control.
+        /// txtProductName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvUsers;
-
+        protected global::System.Web.UI.WebControls.TextBox txtProductName;
+        
         /// <summary>
-        /// hfUserId control.
+        /// txtQuantity control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hfUserId;
-
+        protected global::System.Web.UI.WebControls.TextBox txtQuantity;
+        
         /// <summary>
-        /// formTitle control.
+        /// txtPrice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl formTitle;
-
+        protected global::System.Web.UI.WebControls.TextBox txtPrice;
+        
         /// <summary>
-        /// txtName control.
+        /// ddlCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtName;
-
+        protected global::System.Web.UI.WebControls.DropDownList ddlCategory;
+        
         /// <summary>
-        /// txtEmail control.
+        /// fileUpload control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtEmail;
-
+        protected global::System.Web.UI.WebControls.FileUpload fileUpload;
+        
         /// <summary>
-        /// txtPhone control.
+        /// btnSave control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPhone;
-
+        protected global::System.Web.UI.WebControls.Button btnSave;
+        
         /// <summary>
-        /// txtAddress control.
+        /// gvSellerProducts control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAddress;
-
-        /// <summary>
-        /// txtType control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtType;
-
-        /// <summary>
-        /// ddlIsActive control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlIsActive;
-
-        /// <summary>
-        /// btnSubmit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSubmit;
+        protected global::System.Web.UI.WebControls.GridView gvSellerProducts;
     }
 }

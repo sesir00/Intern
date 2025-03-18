@@ -36,6 +36,8 @@
                 </p>
                 <p>
                     <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301950">Learn more &raquo;</a>
+                    <asp:Label ID="lblWelcome" runat="server"></asp:Label>
+                    <asp:Button ID="logoutbtn" runat="server" Text="Log out" OnClick="Logout_Click"/>
                 </p>
             </section>
         </div>

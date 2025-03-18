@@ -6,14 +6,250 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - My ASP.NET Application</title>
+    <title><%: Page.Title %> - My Ecommerce Application</title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
     </asp:PlaceHolder>
 
-    <webopt:bundlereference runat="server" path="~/Content/css" />
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+        }
+
+        a,
+        a:hover,
+        a:focus,
+        a:active {
+            text-decoration: none;
+            outline: none;
+        }
+
+            a,
+            a:active,
+            a:focus {
+                color: #333;
+                text-decoration: none;
+                transition-timing-function: ease-in-out;
+                -ms-transition-timing-function: ease-in-out;
+                -moz-transition-timing-function: ease-in-out;
+                -webkit-transition-timing-function: ease-in-out;
+                -o-transition-timing-function: ease-in-out;
+                transition-duration: .2s;
+                -ms-transition-duration: .2s;
+                -moz-transition-duration: .2s;
+                -webkit-transition-duration: .2s;
+                -o-transition-duration: .2s;
+            }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        section {
+            padding: 60px 0;
+            /* min-height: 100vh;*/
+        }
+
+        .btn {
+            padding: 14px 25px;
+            text-transform: uppercase;
+            -webkit-transition: all 0.8s;
+            -moz-transition: all 0.8s;
+            -o-transition: all 0.8s;
+            transition: all 0.8s;
+        }
+
+        .red-btn {
+            background: #ed1b24;
+            border: 2px solid #ed1b24;
+            color: #fff;
+        }
+
+            .red-btn:hover {
+                background: #1c376c;
+                color: #fff;
+                border-color: #ffffff;
+            }
+
+        /*---------footer---------*/
+        footer {
+            background-color: #222023;
+            background-image: -webkit-linear-gradient( top, #222023, #1e2c47 );
+            background-image: -moz-linear-gradient( top, #222023, #1e2c47 );
+            background-image: -o-linear-gradient( top, #222023, #1e2c47 );
+            background-image: linear-gradient( to bottom, #222023, #1e2c47 );
+            color: #fff;
+            padding: 220px 0;
+            font-size: 17px;
+        }
+
+            footer h3 {
+                font-size: 24px;
+                font-weight: 600;
+                letter-spacing: 1px;
+            }
+
+            footer h4 {
+                font-size: 20px;
+                font-weight: 600;
+                letter-spacing: 1px;
+                display: inline-block;
+                margin-bottom: 2px;
+            }
+
+        .about-footer li i {
+            position: absolute;
+            left: 0;
+        }
+
+        .about-footer li {
+            padding-left: 40px;
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .about-footer ul {
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: #fff;
+        }
+
+            footer a:hover {
+                color: #ed1b24;
+            }
+
+        .footer-title {
+            border-bottom: 2px solid #a61f2d;
+            padding-bottom: 25px;
+            margin-bottom: 35px;
+        }
+
+        ul.footer-social {
+            float: right;
+        }
+
+            ul.footer-social li {
+                display: inline;
+                margin-right: 16px;
+            }
+
+            ul.footer-social i {
+                width: 30px;
+                height: 30px;
+                background: #fff;
+                color: #222025;
+                text-align: center;
+                line-height: 30px;
+                border-radius: 30px;
+                font-size: 16px;
+                -webkit-transition: all 0.5s;
+                -moz-transition: all 0.5s;
+                -o-transition: all 0.5s;
+                transition: all 0.5s;
+                font-weight: 800;
+            }
+
+            ul.footer-social li:last-child {
+                margin-right: 0px;
+            }
+
+            ul.footer-social i:hover {
+                background: #ed1b24;
+                color: #fff;
+            }
+
+        .page-more-info li {
+            margin-bottom: 31px;
+        }
+
+        footer .table td:first-child {
+            font-weight: 600;
+            padding-left: 33px;
+        }
+
+        footer .table td:last-child {
+            text-align: right;
+        }
+
+        footer .table td {
+            padding: 0px;
+            border: 0;
+        }
+
+        footer .table tr {
+        }
+
+        footer .table td i {
+            position: absolute;
+            left: 0px;
+            font-size: 21px;
+            top: 6px;
+        }
+
+        footer .table td {
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .footer-logo td {
+            padding-right: 4px !important;
+        }
+
+            .footer-logo td:last-child {
+                padding-right: 0px !important;
+            }
+
+        footer hr {
+            border-color: #9294a0;
+        }
+
+        .footer-bottom p {
+            text-align: right;
+        }
+
+        .footer-bottom {
+            margin-top: 30px;
+        }
+
+        .open-hours hr {
+            margin: 30px 0;
+        }
+
+        .open-hours {
+            background: transparent !important; /* Ensures it doesn't have a different background */
+            padding: 20px;
+            color: #fff;
+        }
+
+            .open-hours .table {
+                background: transparent !important;
+                color: #fff; /* Ensures text is readable */
+            }
+    </style>
 
 </head>
 <body>
@@ -39,7 +275,7 @@
 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
             <div class="container">
-                <a class="navbar-brand" runat="server" href="~/">Application name</a>
+                <a class="navbar-brand" runat="server" href="~/">E-comm</a>
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -57,10 +293,70 @@
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
             <hr />
-            <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - My ASP.NET Application</p>
-            </footer>
+
         </div>
+
+<footer class="bg-dark text-white pt-5 pb-4">
+    <div class="container">
+        <div class="row">
+            <!-- About Section -->
+            <div class="col-md-6 col-lg-3">
+                <h3 class="footer-title">About Us</h3>
+                <p>Lorem Ipsum dummy text for footer content. Customize as per your business.</p>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-phone-alt me-2"></i><a href="tel:(010)1234-4321" class="text-white"> (010) 1234-4321</a></li>
+                    <li><i class="fas fa-map-marker-alt me-2"></i> 1/105 Bay Lights, Lorem Ipsum, LIC 3201</li>
+                </ul>
+                <a href="#" class="btn btn-danger mt-3">Book Now</a>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="col-md-6 col-lg-2">
+                <h4 class="footer-title">Quick Links</h4>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">Home</a></li>
+                    <li><a href="#" class="text-white">About</a></li>
+                    <li><a href="#" class="text-white">Testimonial</a></li>
+                    <li><a href="#" class="text-white">Blog</a></li>
+                    <li><a href="#" class="text-white">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- More Info -->
+            <div class="col-md-6 col-lg-3">
+                <h4 class="footer-title">More Info</h4>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white">Lorem Ipsum</a></li>
+                    <li><a href="#" class="text-white">Dolor Sit Amet</a></li>
+                    <li><a href="#" class="text-white">Consectetur Adipisicing</a></li>
+                    <li><a href="#" class="text-white">Ed do eiusmod tempor</a></li>
+                </ul>
+            </div>
+
+            <!-- Social Media -->
+            <div class="col-md-6 col-lg-4 text-center">
+                <h4 class="footer-title">Follow Us</h4>
+                <ul class="list-inline mt-3">
+                    <li class="list-inline-item"><a href="#" class="text-white fs-4"><i class="fab fa-facebook-f"></i></a></li>
+                    <li class="list-inline-item"><a href="#" class="text-white fs-4"><i class="fab fa-instagram"></i></a></li>
+                    <li class="list-inline-item"><a href="#" class="text-white fs-4"><i class="fab fa-linkedin-in"></i></a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <hr class="bg-secondary mt-4">
+        <div class="row">
+            <div class="col-md-6 text-start">
+                <a href="#" class="text-white">Privacy Policy</a>
+            </div>
+            <div class="col-md-6 text-end">
+                <p>© 2025 All Rights Reserved | Your Company Name</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
     </form>
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/Scripts/bootstrap.js") %>

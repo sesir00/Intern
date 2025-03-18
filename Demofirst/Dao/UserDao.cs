@@ -34,10 +34,10 @@ namespace Demofirst.Dao
             return ExecuteDataRow(sb.ToString());
 
         }
-        public DataRow EditUser(string name, string email, string phone, string address, string type, string isActive)
+        public DataRow EditUser(int id, string name, string email, string phone, string address, string type, string isActive)
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendFormat("EXEC proc_ProductMaster @flag='e', @Name={0}, @Email={1}, @Phone={2} , @Address={3} , @Type={4} , @IsActive={5} ", FilterString(name), FilterString(email), FilterString(phone), FilterString(address), FilterString(type), FilterString(isActive));
+            sb.AppendFormat("EXEC proc_ProductMaster @flag='e',@Id={0}, @Name={1}, @Email={2}, @Phone={3} , @Address={4} , @Type={5} , @IsActive={6} ", id, FilterString(name), FilterString(email), FilterString(phone), FilterString(address), FilterString(type), FilterString(isActive));
 
             return ExecuteDataRow(sb.ToString());
         }

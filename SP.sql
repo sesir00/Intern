@@ -43,6 +43,32 @@ BEGIN
 
 		EXEC proc_errorMsg 0, 'Success', ''
 	END
+
+
+	IF @flag = 'e'
+	BEGIN 
+	IF NOT EXISTS(SELECT 'X' FROM Users WHERE id = @Id)
+		BEGIN
+			EXEC proc_errorMsg 1,'Id not found.', ''
+			RETURN;
+		END
+		 IF EXISTS(SELECT 'X' FROM Users WHERE (email = @Email OR phone = @Phone) AND id <> @Id)
+        BEGIN
+            EXEC proc_errorMsg 1, 'Phone or Email has already been used by another user.', ''
+            RETURN;
+        END
+		UPDATE Users
+		SET name = @Name,
+			email = @Email,
+			phone = @Phone,
+			address = @Address,
+			type = @Type,
+			is_active = @IsActive
+		 WHERE Id = @Id;
+
+
+		EXEC proc_errorMsg 0, 'Update Successfull', ''
+	END
 END
 
 
@@ -52,5 +78,5 @@ END
 
 
 
-Select * from Users;
+--Select * from Users;
 

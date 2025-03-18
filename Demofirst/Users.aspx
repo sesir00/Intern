@@ -21,7 +21,7 @@
         <h2>User Management</h2>
         
         <asp:GridView ID="gvUsers" runat="server" AutoGenerateColumns="False" DataKeyNames="Id"
-            OnRowEditing="gvUsers_RowEditing" OnRowUpdating="gvUsers_RowUpdating"
+            OnRowEditing="gvUsers_RowEditing"
             OnRowCancelingEdit="gvUsers_RowCancelingEdit" OnRowDeleting="gvUsers_RowDeleting">
             <Columns>
                 <asp:BoundField DataField="Id" HeaderText="ID" ReadOnly="True" />
@@ -31,11 +31,25 @@
                 <asp:BoundField DataField="Address" HeaderText="Address" />
                 <asp:BoundField DataField="Type" HeaderText="Type" />
                 <asp:BoundField DataField="is_active" HeaderText="IsActive" />
-                <asp:CommandField ShowEditButton="True" ShowDeleteButton="True" />
+                <asp:TemplateField>
+                    <ItemTemplate>
+                        <!-- Edit button that redirects to EditUser.aspx with the Id as a query parameter -->
+                        <a href="EditUser.aspx?id=<%# Eval("Id") %>">Edit</a>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField>
+                    <ItemTemplate>
+                        <!-- Delete button that redirects to DeleteUser.aspx with the Id as a query parameter -->
+                        <a href="DeleteUser.aspx?id=<%# Eval("Id") %>">Delete</a>
+                    </ItemTemplate>
+                </asp:TemplateField>
             </Columns>
         </asp:GridView>
 
-        <h3>Add User</h3>
+       <!-- Hidden field to store User ID for updates -->
+        <asp:HiddenField ID="hfUserId" runat="server" />
+        <h3 id="formTitle" runat="server">Add User</h3>
+
         <asp:TextBox ID="txtName" runat="server" Placeholder="Name"></asp:TextBox>
         <asp:TextBox ID="txtEmail" runat="server" Placeholder="Email"></asp:TextBox>
         <asp:TextBox ID="txtPhone" runat="server" Placeholder="Phone"></asp:TextBox>
@@ -45,7 +59,17 @@
             <asp:ListItem Text="Active" Value="A"></asp:ListItem>
             <asp:ListItem Text="Inactive" Value="I"></asp:ListItem>
         </asp:DropDownList>
-        <asp:Button ID="btnAddUser" runat="server" Text="Add User" OnClick="btnAddUser_Click" />
+
+        <asp:Button ID="btnSubmit" runat="server" Text="Add User" OnClick="btnAddUser_Click" CssClass="btn btn-primary" />
     </form>
+
+
+
+
+    <script>
+    function highlightForm() {
+        document.getElementById("formTitle").style.color = "blue";
+    }
+</script>
 </body>
 </html>
